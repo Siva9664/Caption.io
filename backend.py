@@ -8,6 +8,10 @@ import time
 
 app = FastAPI()
 
+@app.get("/")
+async def home():
+    return {"message": "Caption Agent API deployed successfully"}
+
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,

@@ -8,6 +8,8 @@ import os
 import tempfile
 import time
 
+ROOT = Path(__file__).resolve().parent
+
 app = FastAPI()
 
 @app.get("/")
@@ -75,5 +77,3 @@ async def generate_caption(file: UploadFile = File(...), style: str = Form(...))
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
-
-ROOT = Path(__file__).resolve().parent

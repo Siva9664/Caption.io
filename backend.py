@@ -24,7 +24,7 @@ app.add_middleware(
 )
 
 # Configure Gemini
-GOOGLE_API_KEY = "AIzaSyCA9y-RC2g6tEnATjA5iHQuF-vHjzqrsQs"
+GOOGLE_API_KEY = "AIzaSyAztmZQbVewWJs93WJTXskkvMq7Z-RGt0Q"
 genai.configure(api_key=GOOGLE_API_KEY)
 
 @app.post("/generate")

@@ -16,6 +16,7 @@ app = FastAPI()
 def read_index():
     index_file = ROOT / "index.html"
     return FileResponse(index_file)
+
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
@@ -26,11 +27,18 @@ app.add_middleware(
 )
 
 # Configure Gemini
-GOOGLE_API_KEY = "AIzaSyAztmZQbVewWJs93WJTXskkvMq7Z-RGt0Q"
-genai.configure(api_key=GOOGLE_API_KEY)
+GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
+if not GOOGLE_API_KEY:
+    print("Warning: GOOGLE_API_KEY environment variable not set.")
+
+if GOOGLE_API_KEY:
+    genai.configure(api_key=GOOGLE_API_KEY)
 
 @app.post("/generate")
 async def generate_caption(file: UploadFile = File(...), style: str = Form(...)):
+    if not GOOGLE_API_KEY:
+        return {"caption": "Error: GOOGLE_API_KEY not set on server. Please configure the environment variable."}
+
     # Save uploaded file temporarily
     suffix = ".mp4" if "video" in file.content_type else ".jpg"
     with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
